@@ -6,24 +6,23 @@ export default function App() {
 
   const [getItem, setItem] = useState('');
   const [getAllItems, setAllItems] = useState([]);
-  const [isModalVisible, setModelVisibility] = useState(false);
+
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const addItem = (item) => {
     setItem(item);
   };
 
   const updateItems = item => {
+    //setAllItems(myItems => [...getAllItems, item]);
     setAllItems(myItems => [...getAllItems, { key: Math.random().toString(), value: item }]);
-    setModelVisibility(false);
-  }
 
-  const removeItem = item => {
-    setAllItems(getAllItems.filter((obj) => obj.key !== item.key));
-  }
+    setModalVisible(false);
+  };
 
-  const showModal = () => {
-    setModelVisibility(true);
-  }
+  const removeItem = (item) => {
+    setAllItems(getAllItems.filter((itemObj) => itemObj.key !== item.key));
+  };
 
   return (
     <View style={styles.container}>
@@ -48,29 +47,23 @@ export default function App() {
           Box 3
         </Text>
       </View>
-      <View>
-        <Button title="Add a New Item" onPress={showModal}></Button>
-      </View>
-      <Modal visible={isModalVisible} animationType="slide">
+      <Button title="Add New Item" onPress={() => setModalVisible(true)} />
+      <Modal visible={isModalVisible} animationType="slide" style={{ width: '100%' }}>
         <View style={styles.form}>
           <TextInput
             style={styles.input}
             placeholder="Enter an Item"
             onChangeText={addItem}
           />
-          <Button title="Add Item" onPress={updateItems.bind(this, getItem)} />
-          <Button
-            title="Cancel"
-            onPress={() => setModelVisibility(false)}
-            color="red"
-          />
+          <Button title="Add Item" onPress={updateItems.bind(this, getItem)}></Button>
+          <Button title="Cancel" color="red" onPress={() => setModalVisible(false)} />
         </View>
       </Modal>
       <ScrollView style={styles.itemsContainer}>
         {getAllItems.map((i, index) =>
           <TouchableOpacity activeOpacity={0.5} onPress={removeItem.bind(this, i)}>
             <View key={i.key} style={styles.item}>
-              <Text style={styles.itemText}>{"item # " + (index + 1) + ": " + i.value}</Text>
+              <Text style={styles.itemText}>{"item # " + index + ": " + i.value}</Text>
             </View>
           </TouchableOpacity>)}
       </ScrollView>
@@ -104,7 +97,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   text: {
     backgroundColor: randomUI32(),
@@ -114,8 +107,8 @@ const styles = StyleSheet.create({
   },
   form: {
     flex: 1,
+    // flexDirection: "row",
     justifyContent: "center",
-    alignContent: "center",
-    width: '50%',
+    padding: 10,
   }
 });
