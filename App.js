@@ -9,11 +9,9 @@ export default function App() {
 
   const addItem = (item) => {
     setItem(item);
-    // console.log(item);
   };
 
   const updateItems = item => {
-    console.log(getItem);
     setAllItems(myItems => [...getAllItems, item]);
   }
 
@@ -48,25 +46,33 @@ export default function App() {
         />
         <Button title="Add Item" onPress={updateItems.bind(this, getItem)}></Button>
       </View>
-      <ScrollView>
-        {getAllItems.map((i, index) => <View style={styles.item}>
-          <Text>{"#" + index + " " + i}</Text>
-        </View>)}
+      <ScrollView style={styles.itemsContainer}>
+        {getAllItems.map((i, index) =>
+          <View key={index} style={styles.item}>
+            <Text style={styles.itemText}>{"item # " + (index + 1) + ": " + i}</Text>
+          </View>)}
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  itemsContainer: {
+    width: '80%',
+  },
   item: {
     backgroundColor: randomUI32(),
+    width: '95%',
+    alignContent: "stretch",
+    justifyContent: "flex-start",
+    padding: 10,
+    margin: 5,
+    borderRadius: 10,
+  },
+  itemText: {
     fontSize: 20,
-    width: '100%',
-    height: 300,
-    borderRadius: 4
   },
   input: {
-    fontSize: 20,
     borderBottomColor: 'red',
     borderBottomWidth: 4,
     padding: 4,
@@ -86,7 +92,5 @@ const styles = StyleSheet.create({
   },
   form: {
     flexDirection: "row",
-    // padding: 10,
-    // margin: 10
   }
 });
