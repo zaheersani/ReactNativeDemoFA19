@@ -49,7 +49,7 @@ export default function App() {
         </Text>
       </View>
       <View>
-        <Button title="Add a New Item" onPress={showModal}></Button>
+        <Button title="+ Add a New Item" onPress={showModal} />
       </View>
       <Modal visible={isModalVisible} animationType="slide">
         <View style={styles.form}>
@@ -58,12 +58,18 @@ export default function App() {
             placeholder="Enter an Item"
             onChangeText={addItem}
           />
-          <Button title="Add Item" onPress={updateItems.bind(this, getItem)} />
-          <Button
-            title="Cancel"
-            onPress={() => setModelVisibility(false)}
-            color="red"
-          />
+          <View style={styles.modalButtonsContainer}>
+            <View style={styles.modalButton}>
+              <Button title="Add Item" onPress={updateItems.bind(this, getItem)} />
+            </View>
+            <View style={styles.modalButton}>
+              <Button
+                title="Cancel"
+                onPress={() => setModelVisibility(false)}
+                color="red"
+              />
+            </View>
+          </View>
         </View>
       </Modal>
       <ScrollView style={styles.itemsContainer}>
@@ -98,7 +104,9 @@ const styles = StyleSheet.create({
     borderBottomColor: 'red',
     borderBottomWidth: 4,
     padding: 4,
-    margin: 4
+    margin: 4,
+    textAlign: "center",
+    fontSize: 20
   },
   container: {
     flex: 1,
@@ -115,7 +123,14 @@ const styles = StyleSheet.create({
   form: {
     flex: 1,
     justifyContent: "center",
-    alignContent: "center",
-    width: '50%',
+  },
+  modalButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: "center",
+    paddingTop: 20
+  },
+  modalButton: {
+    width: '40%',
+    padding: 10,
   }
 });
