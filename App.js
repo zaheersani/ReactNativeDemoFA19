@@ -2,27 +2,25 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { randomUI32 } from 'uuid-js';
 
+import ModalInput from './components/ModalInput';
+
 export default function App() {
 
-  const [getItem, setItem] = useState('');
   const [getAllItems, setAllItems] = useState([]);
-  const [isModalVisible, setModelVisibility] = useState(false);
+  const [isModalVisible, setModalVisibility] = useState(false);
 
-  const addItem = (item) => {
-    setItem(item);
-  };
-
-  const updateItems = item => {
+  const updateItems = (item) => {
     setAllItems(myItems => [...getAllItems, { key: Math.random().toString(), value: item }]);
-    setModelVisibility(false);
+    setModalVisibility(false);
   }
 
   const removeItem = item => {
     setAllItems(getAllItems.filter((obj) => obj.key !== item.key));
   }
 
-  const showModal = () => {
-    setModelVisibility(true);
+  const showInputComponent = () => {
+    console.log(isModalVisible);
+    setModalVisibility(true);
   }
 
   return (
@@ -48,30 +46,17 @@ export default function App() {
           Box 3
         </Text>
       </View>
+
+      <ModalInput
+        onAddItem={updateItems}
+        visible={isModalVisible}
+        onCancel={() => setModalVisibility(false)}
+      />
+
       <View>
-        <Button title="+ Add a New Item" onPress={showModal} />
+        <Button title="+ Add a New Item" onPress={() => setModalVisibility(true)} />
       </View>
-      <Modal visible={isModalVisible} animationType="slide">
-        <View style={styles.form}>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter an Item"
-            onChangeText={addItem}
-          />
-          <View style={styles.modalButtonsContainer}>
-            <View style={styles.modalButton}>
-              <Button title="Add Item" onPress={updateItems.bind(this, getItem)} />
-            </View>
-            <View style={styles.modalButton}>
-              <Button
-                title="Cancel"
-                onPress={() => setModelVisibility(false)}
-                color="red"
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
+
       <ScrollView style={styles.itemsContainer}>
         {getAllItems.map((i, index) =>
           <TouchableOpacity activeOpacity={0.5} onPress={removeItem.bind(this, i)}>
