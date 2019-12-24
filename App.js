@@ -11,7 +11,7 @@ const App = () => {
     <View style={styles.container}>
       <Header title="First Screen" />
       <GameCard />
-      <View style={{ flexDirection: "row" }}>
+      {/* <View style={{ flexDirection: "row" }}>
         <Card>
           <Text>Another Card</Text>
           <Input placeholder='Enter Name' />
@@ -19,7 +19,7 @@ const App = () => {
         <Card>
           <Text>Another Card</Text>
         </Card>
-      </View>
+      </View> */}
     </View>
   );
 };
